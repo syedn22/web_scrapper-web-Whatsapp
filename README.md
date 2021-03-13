@@ -1,6 +1,7 @@
 "# web_scrapper-web-Whatsapp"
 
 This Script Scrappes the data from web-whatsapp with user permission.
+run "npm install" to install necessary dependencies.
 
 1. Scan QR code for the Web-Whatsapp.
    ![Web-Whatsapp](./example.png)
