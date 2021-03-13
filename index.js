@@ -1,9 +1,12 @@
 const { chromium } = require("playwright");
+const fs = require("fs"); 
 
 const URL = "https://web.whatsapp.com/";
 const groupClassName = "._1gL0z";
+const messageClassName = "div._1bR5a";
+const timeSelector = "div.xkqQM.copyable-text";
+const timeSelectorAttribute = "data-pre-plain-text";
 
-// const scrapper = async () => ;
 
 async function scrappMessages(groupName, numberOfMessages) {
   const browser = await chromium.launch({
@@ -11,9 +14,6 @@ async function scrappMessages(groupName, numberOfMessages) {
     slowMo: 50,
   });
 
-  const messageClassName = "div._1bR5a";
-  const timeSelector = "div.xkqQM.copyable-text";
-  const timeSelectorAttribute = "data-pre-plain-text";
 
   const page = await browser.newPage();
   await page.goto(URL);
@@ -25,6 +25,8 @@ async function scrappMessages(groupName, numberOfMessages) {
 
   for (let i = 0; i < numberOfMessages; i++)
     await page.keyboard.press("ArrowUp");
+
+  // const messages = require("./messages"); 
 
   let messages = await page.evaluate(() => {
     let allMessages = document.body.querySelectorAll("div._1bR5a");
@@ -70,6 +72,17 @@ async function scrappMessages(groupName, numberOfMessages) {
   });
 
   console.log(messages);
+
+  
+
+  fs.writeFile("messages.json", JSON.stringify(messages), err => { 
+     
+    if (err) throw err;  
+   
+    console.log("Done writing"); 
+  }); 
 }
 
-scrappMessages("Covid-19 =hackathon", 100);
+//scrappMessages(groupName,numberOfMessages) => input => groupName to scrapp and Number of messages to scrapp. 
+
+scrappMessages("<Group Name>", 100);
